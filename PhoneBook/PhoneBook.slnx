@@ -1,1 +1,27 @@
-<Solution />
+<Solution>
+  <Folder Name="/src/" />
+  <Folder Name="/src/1.Core/">
+    <Project Path="src/Core/PhoneBook.Core.Contracts/PhoneBook.Core.Contracts.csproj" />
+    <Project Path="src/Core/PhoneBook.Core.Domain/PhoneBook.Core.Domain.csproj" Id="9a25a56b-2c6c-439a-95d2-a302d13623bf" />
+  </Folder>
+  <Folder Name="/src/2.Application/">
+    <Project Path="src/Application/PhoneBook.Application.Commands/PhoneBook.Application.Commands.csproj" Id="d14e82ad-09b3-47b8-a116-a85d45764870" />
+    <Project Path="src/Application/PhoneBook.Application.Queries/PhoneBook.Application.Queries.csproj" Id="6130c894-bcd8-4e1a-83c6-4b1e3c5b121d" />
+  </Folder>
+  <Folder Name="/src/3.Infrastructure/" />
+  <Folder Name="/src/3.Infrastructure/Data/" />
+  <Folder Name="/src/3.Infrastructure/Data/Adapters/">
+    <Project Path="src/Infrastructure/Data/Adapters/Infrastructure.Data.Adapters.InMemory/Infrastructure.Data.Adapters.InMemory.csproj" Id="1a8a11f8-3549-4261-b136-5c0d811846e4" />
+  </Folder>
+  <Folder Name="/src/3.Infrastructure/Data/Repositories/">
+    <Project Path="src/Infrastructure/Data/Repositories/PhoneBook.Infrastructure.Data.Repositories.Commands/PhoneBook.Infrastructure.Data.Repositories.Commands.csproj" Id="49d4a6c8-cef9-477b-a08f-8fdc318729ec" />
+    <Project Path="src/Infrastructure/Data/Repositories/PhoneBook.Infrastructure.Data.Repositories.Queries/PhoneBook.Infrastructure.Data.Repositories.Queries.csproj" Id="3c3ac4e8-717a-48d6-b5a1-f6f43e80dbc5" />
+  </Folder>
+  <Folder Name="/src/4.Endpoints/">
+    <Project Path="src/Endpoints/PhoneBook.Endpoints.Api/PhoneBook.Endpoints.Api.csproj" Id="30bbfa57-5b4c-414a-a6be-6534c0f1317b" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/PhoneBook.IntegrationTests/PhoneBook.IntegrationTests.csproj" Id="9dedcbba-5183-4ee5-beca-be1970ba9c4f" />
+    <Project Path="tests/PhoneBook.UnitTests/PhoneBook.UnitTests.csproj" Id="1a452c16-58ff-4d29-9711-f82829447cef" />
+  </Folder>
+</Solution>
