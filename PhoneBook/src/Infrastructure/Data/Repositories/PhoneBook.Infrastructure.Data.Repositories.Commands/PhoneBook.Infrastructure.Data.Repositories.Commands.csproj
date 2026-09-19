@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Adapters\Infrastructure.Data.Adapters.InMemory\Infrastructure.Data.Adapters.InMemory.csproj" />
+  </ItemGroup>
+
 </Project>

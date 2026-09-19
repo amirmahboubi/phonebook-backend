@@ -6,4 +6,11 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Application\PhoneBook.Application.Commands\PhoneBook.Application.Commands.csproj" />
+    <ProjectReference Include="..\..\Application\PhoneBook.Application.Queries\PhoneBook.Application.Queries.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\Data\Repositories\PhoneBook.Infrastructure.Data.Repositories.Commands\PhoneBook.Infrastructure.Data.Repositories.Commands.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\Data\Repositories\PhoneBook.Infrastructure.Data.Repositories.Queries\PhoneBook.Infrastructure.Data.Repositories.Queries.csproj" />
+  </ItemGroup>
+
 </Project>
