@@ -1,7 +1,7 @@
 ﻿using PhoneBook.Core.Contracts.Common.Validation;
 using PhoneBook.Core.Contracts.Contacts.Commands;
 
-namespace PhoneBook.Application.Commands.Contacts.Validators;
+namespace PhoneBook.Application.Commands.Contacts.Create;
 
 public sealed class CreateContactCommandValidator
 {
