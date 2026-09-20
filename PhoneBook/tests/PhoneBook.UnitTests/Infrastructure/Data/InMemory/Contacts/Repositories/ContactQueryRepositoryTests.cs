@@ -55,6 +55,30 @@ public sealed class ContactQueryRepositoryTests
         Assert.Contains(firstContact, result);
         Assert.Contains(secondContact, result);
     }
+
+    public void GetAll_WhenContextIsSeeded_ShouldReturnSeedContacts()
+    {
+        // Arrange
+        var context = new InMemoryDataContext();
+        context.Seed();
+
+        var repository =
+            new ContactQueryRepository(context);
+
+        // Act
+        var result = repository.GetAll();
+
+        // Assert
+        Assert.NotEmpty(result);
+
+        Assert.Contains(
+            result,
+            contact => contact.Tag.Value == "Work");
+
+        Assert.Contains(
+            result,
+            contact => contact.Tag.Value == "Family");
+    }
     #endregion
 
     #region GetById Tests
