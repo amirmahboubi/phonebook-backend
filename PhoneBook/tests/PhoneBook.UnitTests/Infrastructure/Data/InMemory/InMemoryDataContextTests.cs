@@ -5,6 +5,7 @@ namespace PhoneBook.UnitTests.Infrastructure.Data.InMemory;
 
 public sealed class InMemoryDataContextTests
 {
+    #region TryAdd Tests
     [Fact]
     public void TryAdd_WithNewContact_ShouldReturnTrue()
     {
@@ -44,7 +45,9 @@ public sealed class InMemoryDataContextTests
         // Assert
         Assert.False(result);
     }
+    #endregion
 
+    #region TryGet Tests
     [Fact]
     public void TryGet_WithExistingContact_ShouldReturnContact()
     {
@@ -84,7 +87,9 @@ public sealed class InMemoryDataContextTests
         Assert.False(result);
         Assert.Null(contact);
     }
+    #endregion
 
+    #region TryRemove Tests
     [Fact]
     public void TryRemove_WithExistingContact_ShouldReturnTrue()
     {
@@ -125,6 +130,7 @@ public sealed class InMemoryDataContextTests
         Assert.False(result);
         Assert.Null(contact);
     }
+    #endregion
 
     [Fact]
     public void Contacts_ShouldReturnAllStoredContacts()
@@ -185,4 +191,55 @@ public sealed class InMemoryDataContextTests
         Assert.Single(firstSnapshot);
         Assert.Equal(2, context.Contacts.Count);
     }
+
+    #region Seed Tests
+    [Fact]
+    public void Seed_ShouldLoadContactsIntoContext()
+    {
+        // Arrange
+        var context = new InMemoryDataContext();
+
+        // Act
+        context.Seed();
+
+        // Assert
+        Assert.NotEmpty(context.Contacts);
+    }
+
+    [Fact]
+    public void Seed_ShouldLoadExpectedSeedTags()
+    {
+        // Arrange
+        var context = new InMemoryDataContext();
+
+        // Act
+        context.Seed();
+
+        // Assert
+        Assert.Contains(
+            context.Contacts,
+            contact => contact.Tag.Value == "Work");
+
+        Assert.Contains(
+            context.Contacts,
+            contact => contact.Tag.Value == "Family");
+    }
+
+    [Fact]
+    public void Seed_ShouldNotAddDuplicateContactsWhenCalledMultipleTimes()
+    {
+        // Arrange
+        var context = new InMemoryDataContext();
+
+        // Act
+        context.Seed();
+        var firstCount = context.Contacts.Count;
+
+        context.Seed();
+        var secondCount = context.Contacts.Count;
+
+        // Assert
+        Assert.Equal(firstCount, secondCount);
+    }
+    #endregion
 }

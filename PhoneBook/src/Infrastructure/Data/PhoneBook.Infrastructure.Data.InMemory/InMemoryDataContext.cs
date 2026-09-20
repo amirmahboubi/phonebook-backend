@@ -1,4 +1,5 @@
 ﻿using PhoneBook.Core.Domain.Contacts;
+using PhoneBook.Infrastructure.Data.InMemory.Contacts;
 using System.Collections.Concurrent;
 
 namespace PhoneBook.Infrastructure.Data.InMemory;
@@ -35,5 +36,15 @@ public sealed class InMemoryDataContext
         return _contacts.TryRemove(
             contactId,
             out contact);
+    }
+
+    public void Seed()
+    {
+        foreach (var contact in ContactsSeedData.Create())
+        {
+            _contacts.TryAdd(
+                contact.Id,
+                contact);
+        }
     }
 }
