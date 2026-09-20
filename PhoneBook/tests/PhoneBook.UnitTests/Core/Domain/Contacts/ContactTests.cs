@@ -3,7 +3,7 @@ using PhoneBook.Core.Domain.Contact;
 
 namespace PhoneBook.UnitTests.Core.Domain.Contacts;
 
-public class ContactTests
+public sealed class ContactTests
 {
     [Fact]
     public void Create_WithValidData_ShouldCreateContact()
@@ -25,35 +25,137 @@ public class ContactTests
         Assert.NotEqual(Guid.Empty, contact.Id);
         Assert.Equal(firstName, contact.FirstName);
         Assert.Equal(lastName, contact.LastName);
-        Assert.Equal(phoneNumber, contact.PhoneNumber);
-        Assert.Equal(tag, contact.Tag);
+        Assert.Equal(phoneNumber, contact.PhoneNumber.Value);
+        Assert.Equal(tag, contact.Tag.Value);
+    }
+
+    [Fact]
+    public void Create_ShouldGenerateUniqueIdsForDifferentContacts()
+    {
+        // Act
+        var firstContact = Contact.Create(
+            "Amir",
+            "Mahboubi",
+            "09121234567",
+            "Work");
+
+        var secondContact = Contact.Create(
+            "Ali",
+            "Ahmadi",
+            "09129876543",
+            "Friend");
+
+        // Assert
+        Assert.NotEqual(firstContact.Id, secondContact.Id);
     }
 
     [Theory]
+    [InlineData(null)]
     [InlineData("")]
     [InlineData(" ")]
     [InlineData("   ")]
-    public void Create_WithEmptyFirstName_ShouldThrowDomainException(string firstName)
+    public void Create_WithInvalidFirstName_ShouldThrowDomainException(
+        string? firstName)
     {
-        Assert.Throws<DomainException>(() =>
-            Contact.Create(
-                firstName,
-                "Mahboubi",
-                "09121234567",
-                "Work"));
+        // Act
+        var action = () => Contact.Create(
+            firstName,
+            "Mahboubi",
+            "09121234567",
+            "Work");
+
+        // Assert
+        Assert.Throws<DomainException>(action);
     }
 
     [Theory]
+    [InlineData(null)]
     [InlineData("")]
     [InlineData(" ")]
     [InlineData("   ")]
-    public void Create_WithEmptyLastName_ShouldThrowDomainException(string lastName)
+    public void Create_WithInvalidLastName_ShouldThrowDomainException(
+        string? lastName)
     {
-        Assert.Throws<DomainException>(() =>
-            Contact.Create(
-                "Amir",
-                lastName,
-                "09121234567",
-                "Work"));
+        // Act
+        var action = () => Contact.Create(
+            "Amir",
+            lastName,
+            "09121234567",
+            "Work");
+
+        // Assert
+        Assert.Throws<DomainException>(action);
+    }
+
+    [Theory]
+    [InlineData(null)]
+    [InlineData("")]
+    [InlineData(" ")]
+    [InlineData("   ")]
+    public void Create_WithInvalidPhoneNumber_ShouldThrowDomainException(
+        string? phoneNumber)
+    {
+        // Act
+        var action = () => Contact.Create(
+            "Amir",
+            "Mahboubi",
+            phoneNumber,
+            "Work");
+
+        // Assert
+        Assert.Throws<DomainException>(action);
+    }
+
+    [Theory]
+    [InlineData(null)]
+    [InlineData("")]
+    [InlineData(" ")]
+    [InlineData("   ")]
+    public void Create_WithInvalidTag_ShouldThrowDomainException(
+        string? tag)
+    {
+        // Act
+        var action = () => Contact.Create(
+            "Amir",
+            "Mahboubi",
+            "09121234567",
+            tag);
+
+        // Assert
+        Assert.Throws<DomainException>(action);
+    }
+
+    [Fact]
+    public void Create_WithLeadingAndTrailingWhitespace_ShouldTrimValues()
+    {
+        // Act
+        var contact = Contact.Create(
+            "  Amir  ",
+            "  Mahboubi  ",
+            "  09121234567  ",
+            "  Work  ");
+
+        // Assert
+        Assert.Equal("Amir", contact.FirstName);
+        Assert.Equal("Mahboubi", contact.LastName);
+        Assert.Equal("09121234567", contact.PhoneNumber.Value);
+        Assert.Equal("Work", contact.Tag.Value);
+    }
+
+    [Fact]
+    public void Create_ShouldPreservePhoneNumberFormatting()
+    {
+        // Arrange
+        const string phoneNumber = "+98 912 123 4567";
+
+        // Act
+        var contact = Contact.Create(
+            "Amir",
+            "Mahboubi",
+            phoneNumber,
+            "Work");
+
+        // Assert
+        Assert.Equal(phoneNumber, contact.PhoneNumber.Value);
     }
 }
