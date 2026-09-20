@@ -1,6 +1,7 @@
-﻿using System.Collections.Concurrent;
-using PhoneBook.Core.Domain.Contacts;
+﻿using PhoneBook.Core.Domain.Contacts;
+using PhoneBook.Infrastructure.Data.InMemory.Contacts;
 using PhoneBook.Infrastructure.Data.InMemory.Context;
+using System.Collections.Concurrent;
 
 namespace PhoneBook.UnitTests.Infrastructure.Data.InMemory.Context;
 
@@ -128,5 +129,25 @@ public sealed class InMemoryDataContextConcurrencyTests
 
         // Assert
         Assert.Empty(context.Contacts);
+    }
+
+    [Fact]
+    public void ConcurrentSeed_ShouldInitializeContactsOnlyOnce()
+    {
+        // Arrange
+        var context = new InMemoryDataContext();
+
+        // Act
+        Parallel.For(
+            0,
+            20,
+            _ => context.Seed());
+
+        // Assert
+        var seededContacts = ContactsSeedData.Create();
+
+        Assert.Equal(
+            seededContacts.Count,
+            context.Contacts.Count);
     }
 }

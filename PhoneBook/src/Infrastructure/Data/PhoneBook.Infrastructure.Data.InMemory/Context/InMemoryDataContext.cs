@@ -7,6 +7,9 @@ namespace PhoneBook.Infrastructure.Data.InMemory.Context;
 public sealed class InMemoryDataContext
 {
     private readonly ConcurrentDictionary<Guid, Contact> _contacts = new();
+    private readonly object _seedLock = new();
+
+    private bool _isSeeded;
 
     public IReadOnlyCollection<Contact> Contacts =>
         _contacts.Values.ToArray();
@@ -40,11 +43,21 @@ public sealed class InMemoryDataContext
 
     public void Seed()
     {
-        foreach (var contact in ContactsSeedData.Create())
+        lock (_seedLock)
         {
-            _contacts.TryAdd(
-                contact.Id,
-                contact);
+            if (_isSeeded)
+            {
+                return;
+            }
+
+            foreach (var contact in ContactsSeedData.Create())
+            {
+                _contacts.TryAdd(
+                    contact.Id,
+                    contact);
+            }
+
+            _isSeeded = true;
         }
     }
 }
