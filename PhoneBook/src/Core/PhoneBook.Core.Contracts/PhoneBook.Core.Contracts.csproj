@@ -10,4 +10,10 @@
     <ProjectReference Include="..\PhoneBook.Core.Domain\PhoneBook.Core.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Contacts\Abstractions\Repositories\" />
+    <Folder Include="Contacts\Commands\" />
+    <Folder Include="Contacts\Queries\" />
+  </ItemGroup>
+
 </Project>
