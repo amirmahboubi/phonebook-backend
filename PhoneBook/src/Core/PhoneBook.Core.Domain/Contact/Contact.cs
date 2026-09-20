@@ -1,4 +1,6 @@
-﻿namespace PhoneBook.Core.Domain.Contact;
+﻿using PhoneBook.Core.Domain.Common;
+
+namespace PhoneBook.Core.Domain.Contact;
 
 public sealed class Contact
 {
@@ -13,7 +15,7 @@ public sealed class Contact
         Tag = tag;
     }
 
-    public Guid Id { get; }
+    public Guid Id { get; } = Guid.NewGuid();
     public string FirstName { get; private set; }
     public string LastName { get; private set; }
     public string PhoneNumber { get; private set; }
@@ -24,6 +26,10 @@ public sealed class Contact
                                  string phoneNumber,
                                  string tag)
     {
-        throw new NotImplementedException();
+        string normalizedFirstName = DomainHelpers.NormalizeRequired(firstName, nameof(firstName));
+        string normalizedLastName = DomainHelpers.NormalizeRequired(lastName, nameof(lastName));
+
+        Contact contact = new(normalizedFirstName, normalizedLastName, phoneNumber, tag);
+        return contact;
     }
 }
