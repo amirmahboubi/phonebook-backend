@@ -363,5 +363,38 @@ public sealed class ContactTests
         Assert.Equal("09351234567", contact.PhoneNumber.Value);
         Assert.Equal("Family", contact.Tag.Value);
     }
+
+    [Fact]
+    public void Update_WhenPhoneNumberIsInvalid_ShouldNotChangeContact()
+    {
+        // Arrange
+        var contact = Contact.Create(
+            "Pouya",
+            "Mahboubi",
+            "09121234567",
+            "Work");
+
+        var originalId = contact.Id;
+        var originalFirstName = contact.FirstName;
+        var originalLastName = contact.LastName;
+        var originalPhoneNumber = contact.PhoneNumber;
+        var originalTag = contact.Tag;
+
+        // Act
+        var action = () => contact.Update(
+            "Ali",
+            "Ahmadi",
+            "   ",
+            "Friend");
+
+        // Assert
+        Assert.Throws<DomainException>(action);
+
+        Assert.Equal(originalId, contact.Id);
+        Assert.Equal(originalFirstName, contact.FirstName);
+        Assert.Equal(originalLastName, contact.LastName);
+        Assert.Equal(originalPhoneNumber, contact.PhoneNumber);
+        Assert.Equal(originalTag, contact.Tag);
+    }
     #endregion
 }

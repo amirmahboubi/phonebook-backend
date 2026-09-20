@@ -1,7 +1,7 @@
 ﻿using PhoneBook.Core.Domain.Common;
 using PhoneBook.Core.Domain.Contacts.ValueObjects;
 
-namespace PhoneBook.UnitTests.Core.Domain.Common.ValueObjects;
+namespace PhoneBook.UnitTests.Core.Domain.Contacts.ValueObjects;
 
 public sealed class PhoneNumberTests
 {
