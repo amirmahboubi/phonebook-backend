@@ -5,6 +5,7 @@ namespace PhoneBook.UnitTests.Core.Domain.Contacts;
 
 public sealed class ContactTests
 {
+    #region Contact Create Tests
     [Fact]
     public void Create_WithValidData_ShouldCreateContact()
     {
@@ -158,4 +159,162 @@ public sealed class ContactTests
         // Assert
         Assert.Equal(phoneNumber, contact.PhoneNumber.Value);
     }
+    #endregion
+
+    #region Contact Update Tests
+    [Fact]
+    public void Update_WithValidData_ShouldUpdateContactDetails()
+    {
+        // Arrange
+        var contact = Contact.Create(
+            "Amir",
+            "Mahboubi",
+            "09121234567",
+            "Work");
+
+        var originalId = contact.Id;
+
+        // Act
+        contact.Update(
+            "Ali",
+            "Ahmadi",
+            "09129876543",
+            "Friend");
+
+        // Assert
+        Assert.Equal(originalId, contact.Id);
+        Assert.Equal("Ali", contact.FirstName);
+        Assert.Equal("Ahmadi", contact.LastName);
+        Assert.Equal("09129876543", contact.PhoneNumber.Value);
+        Assert.Equal("Friend", contact.Tag.Value);
+    }
+
+    [Fact]
+    public void Update_WithLeadingAndTrailingWhitespace_ShouldTrimValues()
+    {
+        // Arrange
+        var contact = Contact.Create(
+            "Amir",
+            "Mahboubi",
+            "09121234567",
+            "Work");
+
+        // Act
+        contact.Update(
+            "  Ali  ",
+            "  Ahmadi  ",
+            "  09129876543  ",
+            "  Friend  ");
+
+        // Assert
+        Assert.Equal("Ali", contact.FirstName);
+        Assert.Equal("Ahmadi", contact.LastName);
+        Assert.Equal("09129876543", contact.PhoneNumber.Value);
+        Assert.Equal("Friend", contact.Tag.Value);
+    }
+
+    [Theory]
+    [InlineData(null)]
+    [InlineData("")]
+    [InlineData(" ")]
+    [InlineData("   ")]
+    public void Update_WithInvalidFirstName_ShouldThrowDomainException(
+        string? firstName)
+    {
+        // Arrange
+        var contact = Contact.Create(
+            "Amir",
+            "Mahboubi",
+            "09121234567",
+            "Work");
+
+        // Act
+        var action = () => contact.Update(
+            firstName,
+            "Ahmadi",
+            "09129876543",
+            "Friend");
+
+        // Assert
+        Assert.Throws<DomainException>(action);
+    }
+
+    [Theory]
+    [InlineData(null)]
+    [InlineData("")]
+    [InlineData(" ")]
+    [InlineData("   ")]
+    public void Update_WithInvalidLastName_ShouldThrowDomainException(
+        string? lastName)
+    {
+        // Arrange
+        var contact = Contact.Create(
+            "Amir",
+            "Mahboubi",
+            "09121234567",
+            "Work");
+
+        // Act
+        var action = () => contact.Update(
+            "Ali",
+            lastName,
+            "09129876543",
+            "Friend");
+
+        // Assert
+        Assert.Throws<DomainException>(action);
+    }
+
+    [Theory]
+    [InlineData(null)]
+    [InlineData("")]
+    [InlineData(" ")]
+    [InlineData("   ")]
+    public void Update_WithInvalidPhoneNumber_ShouldThrowDomainException(
+        string? phoneNumber)
+    {
+        // Arrange
+        var contact = Contact.Create(
+            "Amir",
+            "Mahboubi",
+            "09121234567",
+            "Work");
+
+        // Act
+        var action = () => contact.Update(
+            "Ali",
+            "Ahmadi",
+            phoneNumber,
+            "Friend");
+
+        // Assert
+        Assert.Throws<DomainException>(action);
+    }
+
+    [Theory]
+    [InlineData(null)]
+    [InlineData("")]
+    [InlineData(" ")]
+    [InlineData("   ")]
+    public void Update_WithInvalidTag_ShouldThrowDomainException(
+        string? tag)
+    {
+        // Arrange
+        var contact = Contact.Create(
+            "Amir",
+            "Mahboubi",
+            "09121234567",
+            "Work");
+
+        // Act
+        var action = () => contact.Update(
+            "Ali",
+            "Ahmadi",
+            "09129876543",
+            tag);
+
+        // Assert
+        Assert.Throws<DomainException>(action);
+    }
+    #endregion
 }
