@@ -1,7 +1,7 @@
 ﻿using PhoneBook.Core.Domain.Contacts;
-using PhoneBook.Infrastructure.Data.InMemory;
+using PhoneBook.Infrastructure.Data.InMemory.Context;
 
-namespace PhoneBook.UnitTests.Infrastructure.Data.InMemory;
+namespace PhoneBook.UnitTests.Infrastructure.Data.InMemory.Context;
 
 public sealed class InMemoryDataContextTests
 {

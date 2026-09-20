@@ -1,5 +1,6 @@
-﻿using PhoneBook.Core.Contracts.Contacts.Abstractions.Repositories;
-using PhoneBook.Core.Domain.Contacts;
+﻿using PhoneBook.Core.Domain.Contacts;
+using PhoneBook.Infrastructure.Data.InMemory.Context;
+using PhoneBook.Core.Contracts.Contacts.Abstractions.Repositories;
 
 namespace PhoneBook.Infrastructure.Data.InMemory.Contacts.Repositories;
 

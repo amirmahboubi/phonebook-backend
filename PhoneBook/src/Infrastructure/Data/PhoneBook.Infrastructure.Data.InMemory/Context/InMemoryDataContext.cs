@@ -1,8 +1,8 @@
-﻿using PhoneBook.Core.Domain.Contacts;
+﻿using System.Collections.Concurrent;
+using PhoneBook.Core.Domain.Contacts;
 using PhoneBook.Infrastructure.Data.InMemory.Contacts;
-using System.Collections.Concurrent;
 
-namespace PhoneBook.Infrastructure.Data.InMemory;
+namespace PhoneBook.Infrastructure.Data.InMemory.Context;
 
 public sealed class InMemoryDataContext
 {
