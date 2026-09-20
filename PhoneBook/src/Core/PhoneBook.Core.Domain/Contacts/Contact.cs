@@ -41,10 +41,15 @@ public sealed class Contact
                        string? phoneNumber,
                        string? tag)
     {
-        FirstName = NormalizeRequired(firstName, nameof(firstName));
-        LastName = NormalizeRequired(lastName, nameof(lastName));
-        PhoneNumber = PhoneNumber.Create(phoneNumber);
-        Tag = Tag.Create(tag);
+        var normalizedFirstName = NormalizeRequired(firstName, nameof(firstName));
+        var normalizedLastName = NormalizeRequired(lastName, nameof(lastName));
+        var updatedPhoneNumber = PhoneNumber.Create(phoneNumber);
+        var updatedTag = Tag.Create(tag);
+
+        FirstName = normalizedFirstName;
+        LastName = normalizedLastName;
+        PhoneNumber = updatedPhoneNumber;
+        Tag = updatedTag;
     }
 
     private static string NormalizeRequired(string? value, string fieldName)
