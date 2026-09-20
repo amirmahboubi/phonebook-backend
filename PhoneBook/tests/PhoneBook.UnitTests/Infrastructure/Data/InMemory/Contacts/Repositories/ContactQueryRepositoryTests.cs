@@ -252,4 +252,34 @@ public sealed class ContactQueryRepositoryTests
         Assert.Empty(result);
     }
     #endregion
+
+    #region State Sharing Between Command and Query Repositories
+    [Fact]
+    public void CommandAndQueryRepositories_ShouldShareTheSameContextState()
+    {
+        // Arrange
+        var context = new InMemoryDataContext();
+
+        var commandRepository =
+            new ContactCommandRepository(context);
+
+        var queryRepository =
+            new ContactQueryRepository(context);
+
+        var contact = Contact.Create(
+            "Pouya",
+            "Mahboubi",
+            "09121234567",
+            "Work");
+
+        // Act
+        commandRepository.Add(contact);
+
+        // Assert
+        var result =
+            queryRepository.GetById(contact.Id);
+
+        Assert.Same(contact, result);
+    }
+    #endregion
 }
