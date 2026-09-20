@@ -17,6 +17,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Application\PhoneBook.Application.Commands\PhoneBook.Application.Commands.csproj" />
     <ProjectReference Include="..\..\src\Application\PhoneBook.Application.Queries\PhoneBook.Application.Queries.csproj" />
+    <ProjectReference Include="..\..\src\Infrastructure\Data\PhoneBook.Infrastructure.Data.InMemory\PhoneBook.Infrastructure.Data.InMemory.csproj" />
   </ItemGroup>
 
   <ItemGroup>
