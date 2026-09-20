@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Core\PhoneBook.Core.Domain\PhoneBook.Core.Domain.csproj" />
+    <ProjectReference Include="..\..\..\Core\PhoneBook.Core.Contracts\PhoneBook.Core.Contracts.csproj" />
   </ItemGroup>
 
 </Project>
