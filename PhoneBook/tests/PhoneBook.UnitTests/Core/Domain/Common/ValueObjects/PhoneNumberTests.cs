@@ -81,4 +81,17 @@ public sealed class PhoneNumberTests
         // Assert
         Assert.Equal(input, phoneNumber.Value);
     }
+
+    [Fact]
+    public void Create_WithWhitespaceOnlyAroundValue_ShouldNormalizeValue()
+    {
+        // Arrange
+        const string input = "   +98 912 123 4567   ";
+
+        // Act
+        var phoneNumber = PhoneNumber.Create(input);
+
+        // Assert
+        Assert.Equal("+98 912 123 4567", phoneNumber.Value);
+    }
 }

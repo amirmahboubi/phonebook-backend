@@ -79,4 +79,25 @@ public sealed class TagTests
         // Assert
         Assert.NotEqual(upperCase, lowerCase);
     }
+
+    [Fact]
+    public void Create_ShouldBeCaseSensitive()
+    {
+        // Arrange
+        var first = Tag.Create("Work");
+        var second = Tag.Create("work");
+
+        // Assert
+        Assert.NotEqual(first, second);
+    }
+
+    [Fact]
+    public void Create_WithWhitespaceAroundValue_ShouldNormalizeValue()
+    {
+        // Act
+        var tag = Tag.Create("  TraberNet  ");
+
+        // Assert
+        Assert.Equal("TraberNet", tag.Value);
+    }
 }

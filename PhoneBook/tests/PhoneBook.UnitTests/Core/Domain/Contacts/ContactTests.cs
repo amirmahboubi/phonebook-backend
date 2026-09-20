@@ -316,5 +316,52 @@ public sealed class ContactTests
         // Assert
         Assert.Throws<DomainException>(action);
     }
+
+    [Fact]
+    public void Update_ShouldPreserveIdentity()
+    {
+        // Arrange
+        var contact = Contact.Create(
+            "Pouya",
+            "Mahboubi",
+            "09121234567",
+            "Work");
+
+        var originalId = contact.Id;
+
+        // Act
+        contact.Update(
+            "Ali",
+            "Ahmadi",
+            "09129876543",
+            "Friend");
+
+        // Assert
+        Assert.Equal(originalId, contact.Id);
+    }
+
+    [Fact]
+    public void Update_ShouldReplaceAllMutableValues()
+    {
+        // Arrange
+        var contact = Contact.Create(
+            "Amir",
+            "Mahboubi",
+            "09121234567",
+            "Work");
+
+        // Act
+        contact.Update(
+            "Sara",
+            "Ahmadi",
+            "09351234567",
+            "Family");
+
+        // Assert
+        Assert.Equal("Sara", contact.FirstName);
+        Assert.Equal("Ahmadi", contact.LastName);
+        Assert.Equal("09351234567", contact.PhoneNumber.Value);
+        Assert.Equal("Family", contact.Tag.Value);
+    }
     #endregion
 }
