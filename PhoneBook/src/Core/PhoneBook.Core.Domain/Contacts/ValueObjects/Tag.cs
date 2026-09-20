@@ -1,4 +1,6 @@
-﻿namespace PhoneBook.Core.Domain.Common.ValueObjects;
+﻿using PhoneBook.Core.Domain.Common;
+
+namespace PhoneBook.Core.Domain.Contacts.ValueObjects;
 
 public sealed record Tag
 {

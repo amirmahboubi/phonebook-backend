@@ -1,5 +1,5 @@
 ﻿using PhoneBook.Core.Domain.Common;
-using PhoneBook.Core.Domain.Contact;
+using PhoneBook.Core.Domain.Contacts;
 
 namespace PhoneBook.UnitTests.Core.Domain.Contacts;
 

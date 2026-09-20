@@ -1,7 +1,7 @@
 ﻿using PhoneBook.Core.Domain.Common;
-using PhoneBook.Core.Domain.Common.ValueObjects;
+using PhoneBook.Core.Domain.Contacts.ValueObjects;
 
-namespace PhoneBook.Core.Domain.Contact;
+namespace PhoneBook.Core.Domain.Contacts;
 
 public sealed class Contact
 {
@@ -27,8 +27,8 @@ public sealed class Contact
                                  string phoneNumberValue,
                                  string tagValue)
     {
-        string normalizedFirstName = DomainHelpers.NormalizeRequired(firstName, nameof(firstName));
-        string normalizedLastName = DomainHelpers.NormalizeRequired(lastName, nameof(lastName));
+        string normalizedFirstName = NormalizeRequired(firstName, nameof(firstName));
+        string normalizedLastName = NormalizeRequired(lastName, nameof(lastName));
         var phoneNumber = PhoneNumber.Create(phoneNumberValue);
         var tag = Tag.Create(tagValue);
 
@@ -41,9 +41,17 @@ public sealed class Contact
                        string? phoneNumber,
                        string? tag)
     {
-        FirstName = DomainHelpers.NormalizeRequired(firstName, nameof(firstName));
-        LastName = DomainHelpers.NormalizeRequired(lastName, nameof(lastName));
+        FirstName = NormalizeRequired(firstName, nameof(firstName));
+        LastName = NormalizeRequired(lastName, nameof(lastName));
         PhoneNumber = PhoneNumber.Create(phoneNumber);
         Tag = Tag.Create(tag);
+    }
+
+    private static string NormalizeRequired(string? value, string fieldName)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+            throw new DomainException($"{fieldName} cannot be empty.");
+
+        return value.Trim();
     }
 }
