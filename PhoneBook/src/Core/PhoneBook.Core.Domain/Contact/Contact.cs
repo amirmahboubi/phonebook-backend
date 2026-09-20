@@ -35,4 +35,15 @@ public sealed class Contact
         Contact contact = new(normalizedFirstName, normalizedLastName, phoneNumber, tag);
         return contact;
     }
+
+    public void Update(string? firstName,
+                       string? lastName,
+                       string? phoneNumber,
+                       string? tag)
+    {
+        FirstName = DomainHelpers.NormalizeRequired(firstName, nameof(firstName));
+        LastName = DomainHelpers.NormalizeRequired(lastName, nameof(lastName));
+        PhoneNumber = PhoneNumber.Create(phoneNumber);
+        Tag = Tag.Create(tag);
+    }
 }
