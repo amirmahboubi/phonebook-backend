@@ -1,4 +1,5 @@
 ﻿using PhoneBook.Core.Domain.Contacts;
+using PhoneBook.Core.Contracts.Common.Validation;
 using PhoneBook.Core.Contracts.Contacts.Commands;
 using PhoneBook.Application.Commands.Contacts.Delete;
 using PhoneBook.Application.Commands.Common.Exceptions;

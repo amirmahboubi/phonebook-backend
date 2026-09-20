@@ -1,4 +1,5 @@
-﻿using PhoneBook.Core.Contracts.Contacts.Commands;
+﻿using PhoneBook.Core.Contracts.Common.Validation;
+using PhoneBook.Core.Contracts.Contacts.Commands;
 using PhoneBook.Application.Commands.Common.Exceptions;
 using PhoneBook.Core.Contracts.Contacts.Abstractions.Repositories;
 

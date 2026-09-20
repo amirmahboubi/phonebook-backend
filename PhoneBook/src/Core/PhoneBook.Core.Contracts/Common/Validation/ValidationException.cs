@@ -1,6 +1,4 @@
-﻿using PhoneBook.Core.Contracts.Common.Validation;
-
-namespace PhoneBook.Application.Commands.Common.Exceptions;
+﻿namespace PhoneBook.Core.Contracts.Common.Validation;
 
 public sealed class ValidationException : Exception
 {

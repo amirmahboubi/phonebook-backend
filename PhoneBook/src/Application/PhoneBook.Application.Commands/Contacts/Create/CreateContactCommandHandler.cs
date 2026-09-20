@@ -1,6 +1,7 @@
 ﻿using PhoneBook.Core.Domain.Contacts;
 using PhoneBook.Core.Contracts.Contacts.Dtos;
 using PhoneBook.Core.Contracts.Contacts.Commands;
+using PhoneBook.Core.Contracts.Common.Validation;
 using PhoneBook.Core.Contracts.Contacts.Abstractions.Repositories;
 
 namespace PhoneBook.Application.Commands.Contacts.Create;
@@ -26,7 +27,7 @@ public sealed class CreateContactCommandHandler
 
         if (!validationResult.IsValid)
         {
-            throw new Common.Exceptions.ValidationException(
+            throw new ValidationException(
                 validationResult.Errors);
         }
 

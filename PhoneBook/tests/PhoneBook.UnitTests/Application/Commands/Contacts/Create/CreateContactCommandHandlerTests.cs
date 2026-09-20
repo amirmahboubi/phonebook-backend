@@ -1,6 +1,6 @@
-﻿using PhoneBook.Core.Contracts.Contacts.Commands;
+﻿using PhoneBook.Core.Contracts.Common.Validation;
+using PhoneBook.Core.Contracts.Contacts.Commands;
 using PhoneBook.Application.Commands.Contacts.Create;
-using PhoneBook.Application.Commands.Common.Exceptions;
 using PhoneBook.UnitTests.Application.TestDoubles.Contacts;
 
 namespace PhoneBook.UnitTests.Application.Commands.Contacts.Create;
