@@ -4,7 +4,7 @@ namespace PhoneBook.Core.Contracts.Contacts.Abstractions.Repositories;
 
 public interface IContactQueryRepository
 {
-    IReadOnlyList<Contact> GetList();
+    IReadOnlyList<Contact> GetAll();
     Contact? GetById(Guid contactId);
     IReadOnlyList<Contact> GetByTag(string tag);
 }
