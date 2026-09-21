@@ -20,8 +20,8 @@ public static class ContactEndpoints
             .WithTags("Contacts");
 
         group.MapPost(
-                "",
-                CreateContactAsync)
+                "/",
+                CreateContact)
             .WithName("CreateContact")
             .WithSummary("Create a new contact.")
             .WithDescription(
@@ -32,8 +32,8 @@ public static class ContactEndpoints
             .ProducesProblem(StatusCodes.Status500InternalServerError);
 
         group.MapGet(
-                "",
-                GetContactsAsync)
+                "/",
+                GetContacts)
             .WithName("GetContacts")
             .WithSummary("Get contacts.")
             .WithDescription("Returns all contacts or contacts filtered by an exact tag.")
@@ -43,7 +43,7 @@ public static class ContactEndpoints
 
         group.MapGet(
                 "/{id:guid}",
-                GetContactByIdAsync)
+                GetContactById)
             .WithName("GetContactById")
             .WithSummary("Get a contact by ID.")
             .WithDescription(
@@ -55,7 +55,7 @@ public static class ContactEndpoints
 
         group.MapPut(
                 "/{id:guid}",
-                UpdateContactAsync)
+                UpdateContact)
             .WithName("UpdateContact")
             .WithSummary("Update a contact.")
             .WithDescription(
@@ -67,7 +67,7 @@ public static class ContactEndpoints
 
         group.MapDelete(
                 "/{id:guid}",
-                DeleteContactAsync)
+                DeleteContact)
             .WithName("DeleteContact")
             .WithSummary("Delete a contact.")
             .WithDescription(
@@ -80,7 +80,7 @@ public static class ContactEndpoints
         return endpoints;
     }
 
-    private static IResult CreateContactAsync(
+    private static IResult CreateContact(
         CreateContactRequest request,
         CreateContactCommandHandler handler)
     {
@@ -98,29 +98,39 @@ public static class ContactEndpoints
             new { id = contact.Id });
     }
 
-    private static IResult GetContactsAsync(
+    private static IResult GetContacts(
         string? tag,
         GetAllContactsQueryHandler getAllHandler,
         GetContactsByTagQueryHandler getByTagHandler)
     {
-        var filteredContacts = getByTagHandler.Handle(new GetContactsByTagQuery(tag));
+        if (tag is null)
+        {
+            var contacts = getAllHandler.Handle(
+                new GetAllContactsQuery());
+
+            return TypedResults.Ok(contacts);
+        }
+
+        var filteredContacts = getByTagHandler.Handle(
+            new GetContactsByTagQuery(tag));
+
         return TypedResults.Ok(filteredContacts);
     }
 
-    private static IResult GetContactByIdAsync(
+    private static IResult GetContactById(
         Guid id,
         GetContactByIdQueryHandler handler)
     {
         var contact =
             handler.Handle(
-                new GetContactByIdQuery(id));
+            new GetContactByIdQuery(id));
 
         return contact is null
             ? TypedResults.NotFound()
             : TypedResults.Ok(contact);
     }
 
-    private static IResult UpdateContactAsync(
+    private static IResult UpdateContact(
         Guid id,
         UpdateContactRequest request,
         UpdateContactCommandHandler handler)
@@ -137,7 +147,7 @@ public static class ContactEndpoints
         return TypedResults.NoContent();
     }
 
-    private static IResult DeleteContactAsync(
+    private static IResult DeleteContact(
         Guid id,
         DeleteContactCommandHandler handler)
     {

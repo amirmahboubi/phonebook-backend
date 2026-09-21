@@ -1,3 +1,4 @@
+using PhoneBook.Endpoints.Api.Contacts;
 using PhoneBook.Endpoints.Api.Infrastructure;
 using PhoneBook.Application.Queries.Contacts.GetAll;
 using PhoneBook.Application.Queries.Contacts.GetById;
@@ -16,14 +17,14 @@ builder.Services.AddOpenApi();
 builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
-builder.Services.AddSingleton<InMemoryDataContext>(
-    static _ =>
-    {
-        var context = new InMemoryDataContext();
-        context.Seed();
+builder.Services.AddSingleton<InMemoryDataContext>(_ =>
+{
+    var context = new InMemoryDataContext();
 
-        return context;
-    });
+    context.Seed();
+
+    return context;
+});
 
 builder.Services.AddSingleton<
     IContactCommandRepository,
@@ -37,20 +38,21 @@ builder.Services.AddSingleton<CreateContactCommandValidator>();
 builder.Services.AddSingleton<UpdateContactCommandValidator>();
 builder.Services.AddSingleton<DeleteContactCommandValidator>();
 
-builder.Services.AddSingleton<GetContactsByTagQueryValidator>();
-builder.Services.AddSingleton<GetContactByIdQueryValidator>();
-
 builder.Services.AddScoped<CreateContactCommandHandler>();
 builder.Services.AddScoped<UpdateContactCommandHandler>();
 builder.Services.AddScoped<DeleteContactCommandHandler>();
 
-builder.Services.AddScoped<GetAllContactsQueryHandler>();
+builder.Services.AddSingleton<GetContactByIdQueryValidator>();
+builder.Services.AddSingleton<GetContactsByTagQueryValidator>();
+
+builder.Services.AddSingleton<GetAllContactsQueryHandler>();
 builder.Services.AddScoped<GetContactByIdQueryHandler>();
 builder.Services.AddScoped<GetContactsByTagQueryHandler>();
 
 var app = builder.Build();
 
 app.UseExceptionHandler();
+app.UseStatusCodePages();
 
 if (app.Environment.IsDevelopment())
 {
@@ -64,7 +66,7 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-//app.MapContactEndpoints();
+app.MapContactEndpoints();
 
 app.Run();
 
