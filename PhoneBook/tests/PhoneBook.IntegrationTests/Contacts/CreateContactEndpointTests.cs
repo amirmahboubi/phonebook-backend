@@ -44,9 +44,13 @@ public sealed class CreateContactEndpointTests : ApiTestBase
 
         Assert.NotNull(response.Headers.Location);
 
+        var expectedLocation = new Uri(
+            Client.BaseAddress!,
+            $"/api/contacts/{contact.Id}");
+
         Assert.Equal(
-            $"/api/contacts/{contact.Id}",
-            response.Headers.Location!.OriginalString);
+            expectedLocation,
+            response.Headers.Location);
     }
 
     [Fact]
