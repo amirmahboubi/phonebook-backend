@@ -1,3 +1,4 @@
+using PhoneBook.Endpoints.Api.Infrastructure;
 using PhoneBook.Application.Queries.Contacts.GetAll;
 using PhoneBook.Application.Queries.Contacts.GetById;
 using PhoneBook.Application.Queries.Contacts.GetByTag;
@@ -13,7 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddOpenApi();
 
 builder.Services.AddProblemDetails();
-//builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
 builder.Services.AddSingleton<InMemoryDataContext>(
     static _ =>
