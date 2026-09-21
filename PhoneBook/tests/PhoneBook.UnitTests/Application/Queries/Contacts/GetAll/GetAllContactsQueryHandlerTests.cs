@@ -1,5 +1,6 @@
 ﻿using PhoneBook.Core.Domain.Contacts;
 using PhoneBook.Core.Contracts.Contacts.Queries;
+using PhoneBook.Application.Queries.Contacts.GetAll;
 using PhoneBook.UnitTests.Application.TestDoubles.Contacts;
 
 namespace PhoneBook.UnitTests.Application.Queries.Contacts.GetAll;

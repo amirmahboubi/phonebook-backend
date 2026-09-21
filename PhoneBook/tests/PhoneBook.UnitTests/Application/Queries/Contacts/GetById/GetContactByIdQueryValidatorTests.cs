@@ -1,4 +1,5 @@
 ﻿using PhoneBook.Core.Contracts.Contacts.Queries;
+using PhoneBook.Application.Queries.Contacts.GetById;
 
 namespace PhoneBook.UnitTests.Application.Queries.Contacts.GetById;
 
