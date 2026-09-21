@@ -17,6 +17,8 @@ public sealed class FakeContactRepository
 
     public void Add(Contact contact)
     {
+        ArgumentNullException.ThrowIfNull(contact);
+
         AddCallCount++;
 
         if (!_contacts.TryAdd(
@@ -30,6 +32,8 @@ public sealed class FakeContactRepository
 
     public void Update(Contact contact)
     {
+        ArgumentNullException.ThrowIfNull(contact);
+
         UpdateCallCount++;
 
         if (!_contacts.ContainsKey(contact.Id))
@@ -43,6 +47,8 @@ public sealed class FakeContactRepository
 
     public void Delete(Contact contact)
     {
+        ArgumentNullException.ThrowIfNull(contact);
+
         DeleteCallCount++;
 
         if (!_contacts.Remove(contact.Id))
@@ -64,13 +70,27 @@ public sealed class FakeContactRepository
 
     public IReadOnlyList<Contact> GetByTag(string tag)
     {
+        ArgumentNullException.ThrowIfNull(tag);
+
         return _contacts.Values
-            .Where(contact => contact.Tag.Value == tag)
+            .Where(contact =>
+                contact.Tag.Value == tag.Trim())
             .ToArray();
     }
 
     public void AddExisting(Contact contact)
     {
+        ArgumentNullException.ThrowIfNull(contact);
+
         _contacts[contact.Id] = contact;
+    }
+
+    public void Clear()
+    {
+        _contacts.Clear();
+
+        AddCallCount = 0;
+        UpdateCallCount = 0;
+        DeleteCallCount = 0;
     }
 }
