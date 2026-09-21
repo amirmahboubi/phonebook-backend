@@ -93,4 +93,20 @@ public sealed class GetContactByIdEndpointTests : ApiTestBase
             "404",
             body);
     }
+
+    [Theory]
+    [InlineData("/api/contacts/not-a-guid")]
+    [InlineData("/api/contacts/123")]
+    public async Task GetWithInvalidIdRoute_ShouldReturn404(
+    string route)
+    {
+        // Act
+        using var response =
+            await Client.GetAsync(route);
+
+        // Assert
+        Assert.Equal(
+            HttpStatusCode.NotFound,
+            response.StatusCode);
+    }
 }
