@@ -68,4 +68,29 @@ public sealed class GetContactByIdEndpointTests : ApiTestBase
             HttpStatusCode.BadRequest,
             response.StatusCode);
     }
+
+    [Fact]
+    public async Task GetWithUnknownId_ShouldReturnProblemDetails()
+    {
+        // Act
+        using var response =
+            await Client.GetAsync(
+                $"/api/contacts/{Guid.NewGuid()}");
+
+        // Assert
+        Assert.Equal(
+            HttpStatusCode.NotFound,
+            response.StatusCode);
+
+        Assert.Equal(
+            "application/problem+json",
+            response.Content.Headers.ContentType?.MediaType);
+
+        var body =
+            await response.Content.ReadAsStringAsync();
+
+        Assert.Contains(
+            "404",
+            body);
+    }
 }
