@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Text.Json;
 
 namespace PhoneBook.IntegrationTests.Infrastructure;
 
@@ -25,31 +26,39 @@ public sealed class OpenApiTests : ApiTestBase
             "application/json",
             response.Content.Headers.ContentType?.MediaType);
 
-        var document =
-            await response.Content.ReadAsStringAsync();
+        await using var stream =
+            await response.Content.ReadAsStreamAsync();
 
-        Assert.Contains(
-            "/api/contacts",
-            document);
+        using var document =
+            await JsonDocument.ParseAsync(stream);
 
-        Assert.Contains(
-            "post",
-            document,
-            StringComparison.OrdinalIgnoreCase);
+        var root = document.RootElement;
 
-        Assert.Contains(
-            "get",
-            document,
-            StringComparison.OrdinalIgnoreCase);
+        Assert.True(
+            root.TryGetProperty(
+                "openapi",
+                out var openApiVersion));
 
-        Assert.Contains(
-            "put",
-            document,
-            StringComparison.OrdinalIgnoreCase);
+        Assert.False(
+            string.IsNullOrWhiteSpace(
+                openApiVersion.GetString()));
 
-        Assert.Contains(
-            "delete",
-            document,
-            StringComparison.OrdinalIgnoreCase);
+        Assert.True(
+            root.TryGetProperty(
+                "paths",
+                out var paths));
+
+        Assert.True(
+            paths.TryGetProperty(
+                "/api/contacts/",
+                out _)
+            || paths.TryGetProperty(
+                "/api/contacts",
+                out _));
+
+        Assert.True(
+            paths.TryGetProperty(
+                "/api/contacts/{id}",
+                out _));
     }
 }
